@@ -1,6 +1,7 @@
 package com.ybc.controller.admin;
 
 import com.ybc.constant.JwtClaimsConstant;
+import com.ybc.dto.EmployeeDTO;
 import com.ybc.dto.EmployeeLoginDTO;
 import com.ybc.entity.Employee;
 import com.ybc.properties.JwtProperties;
@@ -8,6 +9,8 @@ import com.ybc.result.Result;
 import com.ybc.service.EmployeeService;
 import com.ybc.utils.JwtUtil;
 import com.ybc.vo.EmployeeLoginVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +27,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin/employee")
 @Slf4j
+@Api(tags = "员工相关接口")
 public class EmployeeController {
 
     @Autowired
@@ -38,6 +42,7 @@ public class EmployeeController {
      * @return
      */
     @PostMapping("/login")
+    @ApiOperation("员工登录")
     public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO) {
         log.info("员工登录：{}", employeeLoginDTO);
 
@@ -67,8 +72,17 @@ public class EmployeeController {
      * @return
      */
     @PostMapping("/logout")
+    @ApiOperation("员工退出")
     public Result<String> logout() {
         return Result.success();
     }
 
+
+    @PostMapping
+    @ApiOperation("新增员工")
+    public Result save(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("新增员工{}", employeeDTO);
+        employeeService.save(employeeDTO);
+        return Result.success();
+    }
 }

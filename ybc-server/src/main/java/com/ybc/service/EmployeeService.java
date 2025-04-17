@@ -1,5 +1,6 @@
 package com.ybc.service;
 
+import com.ybc.dto.EmployeeDTO;
 import com.ybc.dto.EmployeeLoginDTO;
 import com.ybc.entity.Employee;
 
@@ -12,4 +13,9 @@ public interface EmployeeService {
      */
     Employee login(EmployeeLoginDTO employeeLoginDTO);
 
+    /**
+     * 新增员工
+     * @param employeeDTO
+     */
+    void save(EmployeeDTO employeeDTO);
 }
