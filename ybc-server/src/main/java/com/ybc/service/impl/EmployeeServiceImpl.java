@@ -1,16 +1,20 @@
 package com.ybc.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.ybc.constant.MessageConstant;
 import com.ybc.constant.PasswordConstant;
 import com.ybc.constant.StatusConstant;
 import com.ybc.context.BaseContext;
 import com.ybc.dto.EmployeeDTO;
 import com.ybc.dto.EmployeeLoginDTO;
+import com.ybc.dto.EmployeePageQueryDTO;
 import com.ybc.entity.Employee;
 import com.ybc.exception.AccountLockedException;
 import com.ybc.exception.AccountNotFoundException;
 import com.ybc.exception.PasswordErrorException;
 import com.ybc.mapper.EmployeeMapper;
+import com.ybc.result.PageResult;
 import com.ybc.service.EmployeeService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -89,6 +94,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.insert(employee);
+    }
+
+    /**
+     * 分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
+    @Override
+    public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
+        PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize());
+        Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
+        long total = page.getTotal();
+        List<Employee> employees = page.getResult();
+        return new PageResult(total,employees);
     }
 
 }

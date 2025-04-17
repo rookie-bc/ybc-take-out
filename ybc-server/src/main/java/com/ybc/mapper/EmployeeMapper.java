@@ -1,5 +1,7 @@
 package com.ybc.mapper;
 
+import com.github.pagehelper.Page;
+import com.ybc.dto.EmployeePageQueryDTO;
 import com.ybc.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -23,4 +25,12 @@ public interface EmployeeMapper {
     @Insert("insert into employee (name, username, password, phone, sex, id_number, create_time, update_time, create_user, update_user,status) " +
             "values (#{name},#{username},#{password},#{phone},#{sex},#{idNumber},#{createTime},#{updateTime},#{createUser},#{updateUser},#{status})")
     void insert(Employee employee);
+
+    /**
+     * 分页查询，动态sql
+     * @param employeePageQueryDTO
+     * @return
+     */
+
+    Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
 }
